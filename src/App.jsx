@@ -1,3 +1,4 @@
+import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
 
@@ -28,7 +29,7 @@ const schedule = {
 };
 
 const App = () =>  (
-  <div>
+  <div className="container">
     <Banner title={ schedule.title } />
     <CourseList courses={ schedule.courses } />
   </div>
