@@ -1,38 +1,45 @@
 import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 
-const schedule = {
-  "title": "CS Courses for 2018-2019",
-  "courses": {
-    "F101" : {
-      "id" : "F101",
-      "meets" : "MWF 11:00-11:50",
-      "title" : "Computer Science: Concepts, Philosophy, and Connections"
-    },
-    "F110" : {
-      "id" : "F110",
-      "meets" : "MWF 10:00-10:50",
-      "title" : "Intro Programming for non-majors"
-    },
-    "S313" : {
-      "id" : "S313",
-      "meets" : "TuTh 15:30-16:50",
-      "title" : "Tangible Interaction Design and Learning"
-    },
-    "S314" : {
-      "id" : "S314",
-      "meets" : "TuTh 9:30-10:50",
-      "title" : "Tech & Human Interaction"
-    }
+const fetchSchedule = async () => {
+  const url = 'https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php';
+  const response = await fetch(url);
+  try {
+    const res = await response.json();
+    console.log(res);
+    return res;
+  }
+  catch (error) {
+    console.log(error);
+    throw error;
   }
 };
 
-const App = () =>  (
-  <div className="container">
-    <Banner title={ schedule.title } />
-    <CourseList courses={ schedule.courses } />
-  </div>
+const Main = () =>  {
+  const {isPending, error, data:schedule } = useQuery({
+    queryKey: ['schedule'],
+    queryFn: fetchSchedule
+  });
+  
+  if (error) return <h1>{error}</h1>;
+  if (isPending) return <h1>Loading the schedule...</h1>
+
+  return (
+    <div className="container">
+      <Banner title={ schedule.title } />
+      <CourseList courses={ schedule.courses } />
+    </div>
+  );
+};
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <Main />
+  </QueryClientProvider>
 );
 
 export default App;
