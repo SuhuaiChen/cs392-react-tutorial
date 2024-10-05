@@ -1,7 +1,13 @@
 import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
+import EditForm from './components/EditForm';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 import { addScheduleTimes } from './utilities/time';
 
 const fetchSchedule = async () => {
@@ -30,7 +36,12 @@ const Main = () =>  {
   return (
     <div className="container">
       <Banner title={ schedule.title } />
-      <CourseList courses={ schedule.courses } />
+      <Router>
+        <Routes>
+          <Route path="/" element={<CourseList courses={ schedule.courses } />} />
+          <Route path="/edit" element={<EditForm />} />
+        </Routes>
+      </Router>
     </div>
   );
 };
