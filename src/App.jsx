@@ -2,7 +2,8 @@ import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
 import EditForm from './components/EditForm';
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import { useData } from './utilities/firebase.js';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,13 +26,15 @@ const fetchSchedule = async () => {
 };
 
 const Main = () =>  {
-  const {isPending, error, data:schedule } = useQuery({
-    queryKey: ['schedule'],
-    queryFn: fetchSchedule
-  });
-  
-  if (error) return <h1>{error}</h1>;
-  if (isPending) return <h1>Loading the schedule...</h1>
+  // const {isFetching:isPending, error, data:schedule } = useQuery({
+  //   queryKey: ['schedule'],
+  //   queryFn: fetchSchedule
+  // });
+  const [schedule, error] = useData('/', addScheduleTimes);
+
+  if (error) return <h1>Error loading data: {error.toString()}</h1>;
+  if (schedule === undefined) return <h1>Loading data...</h1>;
+  if (!schedule) return <h1>No data found</h1>;
 
   return (
     <div className="container">

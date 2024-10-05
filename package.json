@@ -11,10 +11,13 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.56.2",
+    "@react-query-firebase/database": "^1.0.0-dev.2",
     "bootstrap": "^5.3.3",
+    "firebase": "^10.14.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
+    "react-firebase-hooks": "^5.1.1",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.26.2",
     "use-double-click": "^1.0.5"
   },
