@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { hasConflict } from "../utilities/time";
 
 const Course = ({ course, selected, setSelected }) => {
+  
     const navigate = useNavigate();
-
     const toggle = (x, lst) =>
       lst.includes(x) ? lst.filter((y) => y !== x) : [x, ...lst];
     const isSelected = selected.includes(course);

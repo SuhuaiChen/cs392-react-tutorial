@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, onValue, ref, set, get} from 'firebase/database';
+import { getDatabase, onValue, ref, set, get, update} from 'firebase/database';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAD_BvWOuXdHrDPjAw9Zwv3M4t4pWFGhps",
@@ -38,7 +38,7 @@ export const useData = (path, transform) => {
   };
   
   export const useDbUpdate = (path) => {
-    const [result, setResult] = useState();
+    const [result, setResult] = useState(null);
     const updateData = useCallback((value) => {
       update(ref(database, path), value)
       .then(() => setResult(makeResult()))
