@@ -5,7 +5,7 @@ import { hasConflict } from "../utilities/time";
 
 const Course = ({ course, selected, setSelected }) => {
     const navigate = useNavigate();
-    
+
     const toggle = (x, lst) =>
       lst.includes(x) ? lst.filter((y) => y !== x) : [x, ...lst];
     const isSelected = selected.includes(course);
@@ -14,7 +14,7 @@ const Course = ({ course, selected, setSelected }) => {
     const courseRef = useRef();
     useDoubleClick({
       onSingleClick: isDisabled ? null : () => setSelected(toggle(course, selected)),
-      onDoubleClick: () => navigate('/edit'),
+      onDoubleClick: () => navigate('/edit', { state: course }),
       ref: courseRef,
       latency: 250
     });
