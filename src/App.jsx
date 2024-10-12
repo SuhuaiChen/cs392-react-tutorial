@@ -2,7 +2,8 @@ import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
 import EditForm from './components/EditForm';
-import { useAuthState, useData } from './utilities/firebase.js';
+import { useData } from './utilities/firebase';
+import { useProfile } from './utilities/profile';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import {
   BrowserRouter as Router,
@@ -31,7 +32,8 @@ const Main = () =>  {
   //   queryFn: fetchSchedule
   // });
   const [schedule, error] = useData('/', addScheduleTimes);
-  const [user] = useAuthState();
+  const [user, isAdmin ] = useProfile();
+  const role = isAdmin ? 'admin' : 'guest';
 
   if (error) return <h1>Error loading data: {error.toString()}</h1>;
   if (schedule === undefined) return <h1>Loading data...</h1>;
@@ -41,12 +43,12 @@ const Main = () =>  {
     <div className="container">
       <Banner title={ schedule.title } />
       <div className='d-flex justify-content-end'>
-        <div className="fs-5 fw-bold">{user ? `Hi ${user.displayName}!` : 'Please sign in'}</div>
+        <div className="fs-5 fw-bold">{user ? `Hi ${user.displayName} [${role}]!` : 'Please sign in'}</div>
       </div>
       <Router>
         <Routes>
           <Route path="/" element={<CourseList courses={ schedule.courses } user={user}/>} />
-          <Route path="/edit" element={<EditForm user={user} />} />
+          <Route path="/edit" element={<EditForm user={user} isAdmin={isAdmin} />} />
         </Routes>
       </Router>
     </div>
