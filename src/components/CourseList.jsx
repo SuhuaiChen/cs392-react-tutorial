@@ -2,8 +2,9 @@ import { useState } from "react";
 import Course from "./Course";
 import TermSelector from "./TermSelector";
 import InfoModal from "./InfoModal";
+import AuthButton from "./AuthButton";
 
-const CourseList = ({ courses }) => {
+const CourseList = ({ courses, user }) => {
   const [term, setTerm] = useState("Fall");
   const [selected, setSelected] = useState([]);
   const [showInfo, setShowInfo] = useState(false);
@@ -16,13 +17,16 @@ const CourseList = ({ courses }) => {
       <div className="course-container border border-3 p-3">
         <div className="d-flex mb-3 pr-20">
           <TermSelector term={term} setTerm={setTerm} />
-          <button
-            type="button"
-            className="btn btn-info ms-auto custom-button"
-            onClick={() => setShowInfo(true)}
-          >
-            Info
-          </button>
+            <div className="ms-auto d-flex flex-column gap-2">
+            <AuthButton user={user} />
+            <button
+              type="button"
+              className="btn btn-info btn-light border border-2"
+              onClick={() => setShowInfo(true)}
+            >
+              Info
+            </button>
+            </div>
         </div>
         <div className="course-list">
           {Object.values(termCourses).map((course) => (

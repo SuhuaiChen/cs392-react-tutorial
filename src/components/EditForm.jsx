@@ -19,7 +19,7 @@ const validateCourseData = (key, val) => {
 
 const getCourseId = (course) => course.term[0] + course.number;
 
-const EditForm = () => {
+const EditForm = ({ user }) => {
   const navigate = useNavigate();
   const { state: course } = useLocation();
   const [updateData, result] = useDbUpdate('/courses/' + getCourseId(course));
@@ -49,7 +49,7 @@ const EditForm = () => {
         <div className="invalid-feedback">{errors?.meets}</div>
       </div>
       <button type="button" className="btn btn-cancel border border-2 me-2" onClick={() => navigate('/')}>Cancel</button>
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="submit" disabled={user === null} className="btn btn-primary">Submit</button>
     </form>
   )
 };

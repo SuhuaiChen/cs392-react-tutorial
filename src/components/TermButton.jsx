@@ -8,7 +8,7 @@ const TermButton = ({ term, setTerm, checked }) => (
         checked={checked}
         onChange={() => setTerm(term)}
       />
-      <label className="btn btn-success m-1 p-2 custom-button" htmlFor={term}>
+      <label className="btn btn-success m-1 p-1 custom-button d-flex align-items-center justify-content-center h-75" htmlFor={term}>
         {term}
       </label>
     </>
